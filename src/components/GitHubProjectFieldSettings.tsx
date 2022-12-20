@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, Alert, Badge, Button, Form, Spinner } from 'react-bootstrap';
 import { DivProps } from 'react-html-props';
-import { fetchProjectFields } from '../api/github-projectv2-api';
+import { fetchAllEntityFields } from '../api/github-projectv2-api';
 import {
   EXPORTER_ACCESS_TOKEN_KEY,
   EXPORTER_FIELD_FILTER_ENABLED_KEY,
@@ -139,7 +139,7 @@ export const GitHubProjectFieldSettings = ({ ...props }: GitHubExporterProjectFi
     console.log('GitHubProjectFieldSettings useEffect', login);
     if (accessToken && login) {
       setLoading(true);
-      bumpSearchQueue(fetchProjectFields(login, isOrg === 'true', 1, accessToken), (e, newProjectFields) => {
+      bumpSearchQueue(fetchAllEntityFields(login, isOrg === 'true', accessToken), (e, newProjectFields) => {
         console.log('in bumpSearchQueue callback', e, newProjectFields);
         if (!!e) {
           console.error(e);

@@ -344,6 +344,14 @@ export const fetchProjectItems = async (
                         }
                       }
                     }
+                    ... on ProjectV2ItemFieldIterationValue {
+                      title
+                      field {
+                        ... on ProjectV2IterationField {
+                          name
+                        }
+                      }
+                    }
                     ... on ProjectV2ItemFieldRepositoryValue {
                       field {
                         ... on ProjectV2Field {
@@ -542,6 +550,7 @@ enum ProjectFieldType {
   ProjectV2ItemFieldUserValue = 'ProjectV2ItemFieldUserValue',
   ProjectV2ItemFieldRepositoryValue = 'ProjectV2ItemFieldRepositoryValue',
   ProjectV2ItemFieldReviewerValue = 'ProjectV2ItemFieldReviewerValue',
+  ProjectV2ItemFieldIterationValue = 'ProjectV2ItemFieldIterationValue',
 }
 
 export class ProjectField {
@@ -596,6 +605,8 @@ export class ProjectFieldValue {
             ?.map(({ login, name }: { login?: string; name?: string }) => login ?? name)
             ?.join(', ')
         );
+      case ProjectFieldType.ProjectV2ItemFieldIterationValue:
+        return this.node?.title;
       default:
         return this.node?.value;
     }
